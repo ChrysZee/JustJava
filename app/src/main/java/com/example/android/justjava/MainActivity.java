@@ -36,7 +36,6 @@ int quantity = 0;
         displayMessage(priceMessage);
 
 
-
     }
 
 
