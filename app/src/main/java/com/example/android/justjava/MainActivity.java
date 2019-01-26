@@ -9,18 +9,22 @@
 package com.example.android.justjava;
 
 
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+
 import java.text.NumberFormat;
 
 /**
  * This app displays an order form to order coffee.
  */
 public class MainActivity extends AppCompatActivity {
-int quantity = 0;
+    int quantity = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +35,18 @@ int quantity = 0;
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int price = calculatePrice();
-        String priceMessage = createOrderSummary(price);
+        CheckBox ChocolateCheckBox = findViewById(R.id.chocolate_checkbox);
+        CheckBox whippedCreamCheckBox = findViewById(R.id.notify_me_checkbox);
+        EditText CustomerName = findViewById(R.id.customer_name);
+        String name = CustomerName.getText().toString();
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+        boolean hasChocolate = ChocolateCheckBox.isChecked();
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
+        String priceMessage = createOrderSummary(price, hasWhippedCream, hasChocolate, name);
         displayMessage(priceMessage);
 
 
     }
-
-
 
 
     /**
@@ -46,17 +54,34 @@ int quantity = 0;
      *
      * @param quantity is the number of cups of coffee ordered
      */
-    public int calculatePrice() {
-        int price = (quantity * 5);
-        return price;
+    public int calculatePrice(boolean hasWhippedCream, boolean hasChocolate) {
+        int basePrice = 5;
+        if (hasWhippedCream) {
+            basePrice = (basePrice + 1);
+        }
+        if (hasChocolate) {
+            basePrice = (basePrice + 2);
+        }
+        return quantity * basePrice;
     }
 
-    private String createOrderSummary(int price){
-        String priceMessage = "\nName : Cristian";
-        priceMessage = priceMessage +  "\nQuantity : " + quantity;
-        priceMessage = priceMessage + "\nTotal :" + "$" +  price + "\nThank you!";
-        return priceMessage;
+    /**
+     * Create summary of the order.
+     *
+     * @param price           of the order
+     * @param addWhippedCream is whether or not the user wants whipped cream topping
+     * @param addChocolate    is whether or not the user wants chocolate topping
+     * @param name
+     * @return text summary
+     */
 
+    private String createOrderSummary(int price, boolean addWhippedCream, boolean addChocolate, String name) {
+        String priceMessage = "\nName :  " + name;
+        priceMessage += "\nAdd whipped cream ? " + addWhippedCream;
+        priceMessage += "\nAdd Chocolate? " + addChocolate;
+        priceMessage = priceMessage + "\nQuantity : " + quantity;
+        priceMessage = priceMessage + "\nTotal :" + "$" + price + "\nThank you!";
+        return priceMessage;
 
 
     }
@@ -65,7 +90,11 @@ int quantity = 0;
      * This method is called when the + button is clicked.
      */
     public void increment(View view) {
+        if (quantity >= 100) {
+            return;
+        }
         quantity += 1;
+
         displayQuantity(quantity);
     }
 
@@ -73,9 +102,13 @@ int quantity = 0;
      * This method is called when the minus button is clicked.
      */
     public void decrement(View view) {
+        if (quantity == 1) {
+            return;
+        }
         quantity -= 1;
         displayQuantity(quantity);
     }
+
     /**
      * This method displays the given quantity value on the screen.
      */

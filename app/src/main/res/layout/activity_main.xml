@@ -6,9 +6,40 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/customer_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textCapWords" />
+
+
+    <TextView
+        style="@style/HeaderTextStyle"
+        android:layout_marginTop="16dp"
+        android:text="Toppings" />
+
+    <CheckBox
+        android:id="@+id/notify_me_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:text="Whipped cream"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/chocolate_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:text="Chocolate"
+        android:textSize="16sp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="Quantity"
         android:textAllCaps="true" />
@@ -42,12 +73,10 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/HeaderTextStyle"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Order Summary"
-        android:textAllCaps="true" />
+        android:text="Order Summary" />
 
     <TextView
         android:id="@+id/order_summary_view"
